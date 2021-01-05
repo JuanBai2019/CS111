@@ -1,0 +1,34 @@
+NAME:Juan Bai
+EMAIL:Daisybai66@yahoo.com
+ID:105364754
+
+Included files:
+
+README
+
+lab0.c
+	The executable c source code for project 0. It implements stdin/stdout and redirections. It also has segmentation fault and segmentation handler with catch options functionalities.
+
+Makefile
+	default: build the lab0 executable with the -Wall and -Wextra options.
+	check: runs a quick smoke-test for the program.
+	clean: delete all files created by the Makefile, and return the directory to its freshly untarred state.
+	dist: build the distribution tarball.
+
+Using "smoke test" to check the progrom's functionalities:
+       	 Check input redirection is working properly by running the program with input file and creat a output file
+	 check output redirection is working properly by comparing the input.txt and output.txt files to see if they are the same 
+	 check the segmentation handler works by running --segfault and --catch together. 
+	 check segmentation argument is creating correctly.
+	 
+
+
+backtrace.png
+	A screenshot that showing a segfault and associated stack-trace
+
+
+breakpoint.png  
+	A screenshot that showing a breakpoint and variable inspection
+
+Project resources:
+	mainly based on TA's video and slides, also benefited with student's questions that is asked on piazza. 
