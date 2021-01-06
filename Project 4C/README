@@ -1,0 +1,20 @@
+# NAME: Juan Bai
+# EMAIL: daisybai66@yahoo.com
+# ID: 105364754
+
+lab4c_tcp.c and lab4c_tls.c:
+	C source files for two embedded applications (lab4c_tcp and lab4c_tls) that build and run (with no errors or warnings) on a Beaglebone.
+
+Makefile:
+	A Makefile to build and test your application. The higher level targets should include:
+	default: build both versions of your program (compiling with the -Wall and -Wextra options).
+	clean: delete all programs and output created by the Makefile and restore the directory to its freshly untarred state.
+	dist: create the deliverable tarball.
+
+README:
+	A README file contains descriptions of each of the included files.
+	
+
+Research references:
+    For coding part I used TA's powerpoint and washed his vedio, and I used almost all of the pseudocode that he lectured. I also get benefited from pizze.
+	
