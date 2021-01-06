@@ -1,0 +1,26 @@
+NAME:Juan Bai
+EMAIL:Daisybai66@yahoo.com
+ID:105364754
+
+Description of included files:
+
+lab1a.c
+		 The c source code that compiles to an executable named lab1a, which accepts the command line argument --shell=program option with a required program argument such as --shell=/bin/bash.
+
+Makefile
+	Makefile that supports default clean and dist targets explained as the flowing terms.
+	default: builds the target with -Wall and Wextra options.
+	clean: deletes files that is created by Makefile.
+	dist target: creats the tarball for distribution.
+
+
+Testing methodology:
+	By runing --shell=/bin/bash to test the functioniaties of our program in excuting some shell commands such as ls, echo etc.
+	Also tested some special keys such as control C and control D, and sanity test. 
+
+
+Research references:
+	 For coding part I used TA's powerpoint and washed his vedio, and I used almost all of the pseudocode that he lectured.
+	 For non-canonical input mode I read general terminal interface page:https://pubs.opengroup.org/onlinepubs/007908775/xbd/termios.html#:~:text=In%20non%2Dcanonical%20mode%20input,to%20process%20the%20bytes%20received.
+	 For understanding the usege of some of functions I reead Linux man page:https://linux.die.net/man/3/tcgetattr.
+ 
