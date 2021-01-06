@@ -1,0 +1,139 @@
+Total: 654 samples
+     625  95.6%  95.6%      652  99.7% thread_worker
+      10   1.5%  97.1%       10   1.5% SortedList_length
+       3   0.5%  97.6%        3   0.5% ?? /usr/src/debug////////glibc-2.17-c758a686/string/../sysdeps/x86_64/multiarch/strcmp-sse42.S:203
+       2   0.3%  97.9%        2   0.3% ?? /usr/src/debug////////glibc-2.17-c758a686/string/../sysdeps/x86_64/multiarch/strcmp-sse42.S:211
+       2   0.3%  98.2%        2   0.3% ?? /usr/src/debug////////glibc-2.17-c758a686/string/../sysdeps/x86_64/multiarch/strcmp-sse42.S:1734
+       2   0.3%  98.5%        2   0.3% ?? /usr/src/debug////////glibc-2.17-c758a686/string/../sysdeps/x86_64/multiarch/strcmp-sse42.S:1734
+       2   0.3%  98.8%        2   0.3% ?? /usr/src/debug////////glibc-2.17-c758a686/string/../sysdeps/x86_64/multiarch/strcmp-sse42.S:1734
+       2   0.3%  99.1%        8   1.2% SortedList_insert
+       2   0.3%  99.4%        9   1.4% SortedList_lookup
+       1   0.2%  99.5%        1   0.2% ?? /usr/src/debug/glibc-2.17-c758a686/stdlib/random.c:297
+       1   0.2%  99.7%        1   0.2% ?? /usr/src/debug////////glibc-2.17-c758a686/string/../sysdeps/x86_64/multiarch/strcmp-sse42.S:161
+       1   0.2%  99.8%        1   0.2% ?? /usr/src/debug////////glibc-2.17-c758a686/string/../sysdeps/x86_64/multiarch/strcmp-sse42.S:205
+       1   0.2% 100.0%        1   0.2% __random_r
+       0   0.0% 100.0%      652  99.7% ?? /usr/src/debug////////glibc-2.17-c758a686/misc/../sysdeps/unix/sysv/linux/x86_64/clone.S:118
+       0   0.0% 100.0%        2   0.3% __libc_start_main
+       0   0.0% 100.0%        1   0.2% __random
+       0   0.0% 100.0%        2   0.3% _start
+       0   0.0% 100.0%        2   0.3% main
+       0   0.0% 100.0%        2   0.3% rand_r
+       0   0.0% 100.0%      652  99.7% start_thread
+ROUTINE ====================== thread_worker in /u/cs/ugrad/juanb/CS111/lab2b/lab2_list.c
+   625    652 Total samples (flat / cumulative)
+     .      .   98: 
+     .      .   99:   }
+     .      .  100: }
+     .      .  101: 
+     .      .  102: void * thread_worker(void * threadNum)
+---
+     .      .  103: {
+     .      .  104:   for(int i = *((int*)threadNum); i < threads*iterations; i=i+threads)
+     .      .  105:     {
+     .      .  106:       if(strcmp(sync_arg,"s")==0)
+   490    490  107: 	while(__sync_lock_test_and_set(&lock,1));
+     .      .  108:       if(strcmp(sync_arg,"m")==0)
+     .      .  109: 	pthread_mutex_lock(&mutex);
+     .      .  110: 
+     .      8  111:       SortedList_insert(&listhead,&pool[i]);
+     .     10  112:       if(SortedList_length(&listhead)==-1)
+     .      .  113:       {
+     .      .  114: 	fprintf(stderr, "Error from SortedList_length()!\n");
+     .      .  115: 	exit(2);
+     .      .  116:       }
+     .      .  117:       if(strcmp(sync_arg,"s")==0)
+     .      .  118: 	__sync_lock_release(&lock);
+     .      .  119:       if(strcmp(sync_arg, "m")==0)
+     .      .  120: 	pthread_mutex_unlock(&mutex);
+     .      .  121:     }
+     .      .  122:   SortedList_t* e;
+     .      .  123:   for(int i = *((int*)threadNum); i < threads*iterations; i=i+threads)
+     .      .  124:     {
+     .      .  125:       if(strcmp(sync_arg,"s")==0)
+   135    135  126: 	while(__sync_lock_test_and_set(&lock,1));
+     .      .  127:       if(strcmp(sync_arg,"m")==0)
+     .      .  128: 	pthread_mutex_lock(&mutex);
+     .      .  129: 
+     .      9  130:       e = SortedList_lookup(&listhead,pool[i].key);
+     .      .  131:       if(e==NULL)
+     .      .  132: 	{
+     .      .  133: 	  fprintf(stderr, "Error from SortedList_lookup()!\n");
+     .      .  134: 	  exit(2);
+     .      .  135: 	}
+     .      .  136:       if(SortedList_delete(e)!=0)
+     .      .  137: 	{
+     .      .  138: 	  fprintf(stderr, "Error from SortedList_delete()!\n");
+     .      .  139: 	  exit(2);
+     .      .  140: 	}
+     .      .  141:       if(strcmp(sync_arg,"s")==0)
+     .      .  142: 	__sync_lock_release(&lock);
+     .      .  143:       if(strcmp(sync_arg, "m")==0)
+     .      .  144: 	pthread_mutex_unlock(&mutex);
+     .      .  145:     }
+     .      .  146:   return NULL;
+     .      .  147: }
+---
+     .      .  148: 
+     .      .  149: 
+     .      .  150: int main(int argc, char* argv[])
+     .      .  151: {
+     .      .  152: 
+ROUTINE ====================== thread_worker in /u/cs/ugrad/juanb/CS111/lab2b/lab2_list.c
+   625    652 Total samples (flat / cumulative)
+     .      .   98: 
+     .      .   99:   }
+     .      .  100: }
+     .      .  101: 
+     .      .  102: void * thread_worker(void * threadNum)
+---
+     .      .  103: {
+     .      .  104:   for(int i = *((int*)threadNum); i < threads*iterations; i=i+threads)
+     .      .  105:     {
+     .      .  106:       if(strcmp(sync_arg,"s")==0)
+   490    490  107: 	while(__sync_lock_test_and_set(&lock,1));
+     .      .  108:       if(strcmp(sync_arg,"m")==0)
+     .      .  109: 	pthread_mutex_lock(&mutex);
+     .      .  110: 
+     .      8  111:       SortedList_insert(&listhead,&pool[i]);
+     .     10  112:       if(SortedList_length(&listhead)==-1)
+     .      .  113:       {
+     .      .  114: 	fprintf(stderr, "Error from SortedList_length()!\n");
+     .      .  115: 	exit(2);
+     .      .  116:       }
+     .      .  117:       if(strcmp(sync_arg,"s")==0)
+     .      .  118: 	__sync_lock_release(&lock);
+     .      .  119:       if(strcmp(sync_arg, "m")==0)
+     .      .  120: 	pthread_mutex_unlock(&mutex);
+     .      .  121:     }
+     .      .  122:   SortedList_t* e;
+     .      .  123:   for(int i = *((int*)threadNum); i < threads*iterations; i=i+threads)
+     .      .  124:     {
+     .      .  125:       if(strcmp(sync_arg,"s")==0)
+   135    135  126: 	while(__sync_lock_test_and_set(&lock,1));
+     .      .  127:       if(strcmp(sync_arg,"m")==0)
+     .      .  128: 	pthread_mutex_lock(&mutex);
+     .      .  129: 
+     .      9  130:       e = SortedList_lookup(&listhead,pool[i].key);
+     .      .  131:       if(e==NULL)
+     .      .  132: 	{
+     .      .  133: 	  fprintf(stderr, "Error from SortedList_lookup()!\n");
+     .      .  134: 	  exit(2);
+     .      .  135: 	}
+     .      .  136:       if(SortedList_delete(e)!=0)
+     .      .  137: 	{
+     .      .  138: 	  fprintf(stderr, "Error from SortedList_delete()!\n");
+     .      .  139: 	  exit(2);
+     .      .  140: 	}
+     .      .  141:       if(strcmp(sync_arg,"s")==0)
+     .      .  142: 	__sync_lock_release(&lock);
+     .      .  143:       if(strcmp(sync_arg, "m")==0)
+     .      .  144: 	pthread_mutex_unlock(&mutex);
+     .      .  145:     }
+     .      .  146:   return NULL;
+     .      .  147: }
+---
+     .      .  148: 
+     .      .  149: 
+     .      .  150: int main(int argc, char* argv[])
+     .      .  151: {
+     .      .  152: 

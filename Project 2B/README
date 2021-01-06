@@ -1,0 +1,80 @@
+NAME:Juan Bai
+EMAIL:Daisybai66@yahoo.com
+ID:105364754
+
+Description of included files:
+
+lab2_add.c:
+A C program that implements and tests a shared variable add function, implements the (below) specified command line options, and produces the (below) specified output statistics.
+
+
+lab2_list.c:
+A C module that implements insert, delete, lookup, and length methods for a sorted doubly linked list (described in the provided header file, including correct placement of yield calls).
+
+
+
+Makefile:
+	Makefile has default tests graphs dist and clean targets as following
+	build:(default target) compile all programs (with the -Wall and -Wextra options).
+	tests: run all (over 200) specified test cases to generate results in CSV files. Note that the lab2_list program is expected to fail when running multiple threads without synchronization. Make sure that your Makefile continues executing despite such failures (e.g. put a '-' in front of commands that are expected to fail).
+	graphs:use gnuplot(1) and the supplied data reduction scripts to generate the required graphs
+	dist:create the deliverable tarball
+	clean:delete all programs and output created by the Makefile
+
+
+Reaserch references:
+	 For coding part I followed the instruction closly along with TA's powerpoint and watched his vedio, and I used almost all of the pseudocode that he lectured. If i encountered any errors, I always go to piazza to see if anyone has similar questions or read instructions along with my ocde to make sure I did not miss anything. Also I have used Linux manual page constantly:https://man7.org/linux/man-pages/man3/pthread_create.3.html
+
+
+QUESTIONS:
+QUESTION 2.3.1 - CPU time in the basic list implementation:
+Where do you believe most of the CPU time is spent in the 1 and 2-thread list tests ?
+Answer: In the 1 and 2-thread list tests, most of the CPU time is spent on the list operations. 
+
+Why do you believe these to be the most expensive parts of the code?
+Answer:Because there are not many threads, the time spent on creating them are limited and the conflicts between threads are minimal. However,changing pointers in lists takes up more resources.
+
+Where do you believe most of the CPU time is being spent in the high-thread spin-lock tests?
+Answer: In the high-tread spin-lock tests, the most of CPU time is being spent for waiting the lock (or trying to acquire the lock). Since there are many threads, the possibility of contention between threads is considerably high. Therefore, spin-lock would keep spinning until a lock is available for each operation it serves.
+
+Where do you believe most of the CPU time is being spent in the high-thread mutex tests?
+Answer:In the high-thread mutex tests, the most of CPU time is being spent on  context switches. Since there are many threads, the possibility of contention between threads
+is considerably high. Mutexes would context switch when the thread is unable to acquire the lock and put it into sleep until a lock is available.
+
+
+
+QUESTION 2.3.2 - Execution Profiling:
+Where (what lines of code) are consuming most of the CPU time when the spin-lock version of the list exerciser is run with a large number of threads?
+Why does this operation become so expensive with large numbers of threads?
+Answer: Lines of code that cosum most of the CPU time ~ are:  
+	while (__sync_lock_test_and_set(lock, 1));
+	while (__sync_lock_test_and_set(lock, 1));
+This opreation become so expensive with large numbers of the threads Since there are many threads, the possibility of contention between threads is considerably high.
+For each operation the spin-lock serves, it has to keep spinning until a lock for it is available. It would do this for all threads. Therefore, it significantly brings down the performance.
+
+
+
+QUESTION 2.3.3 - Mutex Wait Time:
+Look at the average time per operation (vs. # threads) and the average wait-for-mutex time (vs. #threads).
+Why does the average lock-wait time rise so dramatically with the number of contending threads?
+Answer: If there are many threads, the possibility of contention between threads woule be considerably high. Whereas for low amount of threads, there is not many contentions an each thread is more likely to be able to finish its whole job without preemption. The reason why the average lock-wait time rise quickly as the threads becomes many is that, when there are more competing threads, most of them would be put
+into sleep and mutual exclusion would force them to be run one thread at a time. Therefore, most of the threads would be waiting for service as the number of threads increases and hence increases the average
+waiting time.
+
+Why does the completion time per operation rise (less dramatically) with the number of contending threads?
+Answer:A: The reason why completion time rises with the number of contending threads is that, there are more locks being put on waiting because of mutual exclusion as there are more contending threads. The reason why completion time rises less dramatically is that completion time measures the whole thing for all threads in general, whereas wait-for-lock time is specific to the time spent to acquire the lock. The completion time therefore not only includes the wait-for-lock time, but also includes some other operation time, such as lists' insertion and deletion whose time do not change as much as wait-for-lock time as the number of threads increases. Therefore, these other operation time would act like balancing factors to make the completion time seem not as radical as the wait-for-lock time.
+
+How is it possible for the wait time per operation to go up faster (or higher) than the completion time per operation?
+Answer: The completion time not only includes the wait time, but also includes some other operation time,such as lists' insertion and deletion whose time do not change as much as wait time as the number of threads increases. Therefore, these other operation time would act like balancing factors to make the completion time seem not as radical as the wait time. (basically same answer as the previous quesitn)
+
+
+
+QUESTION 2.3.4 - Performance of Partitioned Lists
+Explain the change in performance of the synchronized methods as a function of the number of lists.
+Answer:The performance increases with the number of lists. The reason is that if there is only one list, threads have to access it one at a time due to mutual exclusion. But now we have multiple sublists, each sublist can be accessed one at a time simultaneously. Therefore, it is as if we have "number of sublists" of threads operating at the same time while still mantaining mutual exclusion.
+
+Should the throughput continue increasing as the number of lists is further increased? If not, explain why not.
+Answer: No. It would increase until it reaches a point because it requires multiple cores of the computer working together. When it becomes too many sublists for the computer to handle, the throughput would not increase and might even drop.
+
+It seems reasonable to suggest the throughput of an N-way partitioned list should be equivalent to the throughput of a single list with fewer (1/N) threads. Does this appear to be true in the above curves? If not, explain why not.
+Answer:A: This does not appear to be true. Taking a 4-way partitioned list for example, its throughput is not equivalent to a single list with 1 thread based on lab2b_4.png and lab2b_5.png. The reason is that N-way partitioned list is equivalent to N sublists of shorter length in comparison to a single list of a longer length. N sublists would encounter lower chance of competing threads because each sublist can be accessed one at a time simultaneously. It is as if we have "num_sub_lists" of threads operating at the same time while still mantaining mutual exclusion. However, a single list would have higher chance of competing threads.
