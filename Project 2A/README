@@ -1,0 +1,72 @@
+NAME:Juan Bai
+EMAIL:Daisybai66@yahoo.com
+ID:105364754
+
+Description of included files:
+
+lab2_add.c:
+A C program that implements and tests a shared variable add function, implements the (below) specified command line options, and produces the (below) specified output statistics.
+
+
+lab2_list.c:
+A C module that implements insert, delete, lookup, and length methods for a sorted doubly linked list (described in the provided header file, including correct placement of yield calls).
+
+
+
+Makefile:
+        Makefile has default tests graphs dist and clean targets as following
+	build ... (default target) compile all programs (with the -Wall and -Wextra options).
+	tests: run all (over 200) specified test cases to generate results in CSV files. Note that the lab2_list program is expected to fail when running multiple threads without synchronization. Make sure that your Makefile continues executing despite such failures (e.g. put a '-' in front of commands that are expected to fail).
+	graphs:use gnuplot(1) and the supplied data reduction scripts to generate the required graphs
+	dist:create the deliverable tarball
+	clean:delete all programs and output created by the Makefile
+
+
+Reaserch references:
+          For coding part I followed the instruction closly along with TA's powerpoint and watched his vedio, and I used almost all of the pseudocode that he lectured. If i encountered any errors, I always go to piazza to see if anyone has similar questions or read instructions along with my ocde to make sure I did not miss anything. Also I have used Linux manual page constantly:https://man7.org/linux/man-pages/man3/pthread_create.3.html
+
+
+QUESTIONS:
+
+QUESTION 2.1.1 - causing conflicts:
+Why does it take many iterations before errors are seen?
+Answer: if the number of iterations is small, then the multithread will complete the add function before the time slice. Hence, there will be no thread interrupt, then the race condition might not get detacted.
+
+Why does a significantly smaller number of iterations so seldom fail?
+Answer: A siginificantly small number of iterations will fail so seldom for the similar reason, since the small number if iteration makes the thread to complate the entire add function before the time slice.
+
+QUESTION 2.1.2 - cost of yielding:
+Why are the --yield runs so much slower?
+Answer:Yield runs so much slower because it takes time to interrupt a thread and switch to a new thread 
+
+Where is the additional time going?
+Answer:The additional time goes between switching the treads
+
+Is it possible to get valid per-operation timings if we are using the --yield option?If so, explain how. If not, explain why not.
+Answer:It is no possible to get valid per-operation timings only using the --yield option because we only measure wall time in this project and it is no possible to meausre the swith time accurately with our current knowledge.
+
+
+QUESTION 2.1.3 - measurement errors:
+Why does the average cost per operation drop with increasing iterations?
+Answer:The average cost per operation drop with increasing iterations because creating treads is expensive,we can reduce cost by making more iterations.
+ 
+If the cost per iteration is a function of the number of iterations, how do we know how many iterations to run (or what the "correct" cost is)?
+Answerr:From the plot graph we can see the cost/iteration drops exponentilly,it will reach stability level eventually, then we will konw the correct cost.
+
+
+QUESTION 2.1.4 - costs of serialization:
+Why do all of the options perform similarly for low numbers of threads?
+Answer:For the low number of threads, there is less overhead from locking,therefore, they have similar performance.
+
+Why do the three protected operations slow down as the number of threads rises?
+Answer: As the number of treads rises, the amount of overhead also rises. Hence, more overhead spending time to wait locks to be released instead of doing work.
+
+
+QUESTION 2.2.1 - scalability of Mutex
+Compare the variation in time per mutex-protected operation vs the number of threads in Part-1 (adds) and Part-2 (sorted lists).Comment on the general shapes of the curves, and explain why they have this shape. Comment on the relative rates of increase and differences in the shapes of the curves, and offer an explanation for these differences.
+Answer:In part 1 ,the cost of operations for mutex drops down as threads increase. For the spin lock, the cost of operations drops low with small amount of threads, but with a large number of threads, the cost goes up linearly. In part 2,the cost of operations is not influenced that much from the  increasing number of threads. When a mutex lock locks an operation, it stays locked for a much longer time, so context switching will be much less than the part 1. 
+
+QUESTION 2.2.2 - scalability of spin locks
+Compare the variation in time per protected operation vs the number of threads for list operations protected by Mutex vs Spin locks. Comment on the general shapes of the curves, and explain why they have this shape.
+Comment on the relative rates of increase and differences in the shapes of the curves, and offer an explanation for these differences.
+Answer:as the number of threads increase, the spin locks start costing more than the mutex lock. This is more noticeble in the add program, but it not easy to notice in the list program.  With a spin lock, the CPU gives some time to the spinning threads instead of executing useful process; but with a mutex, however, if the section is locked, the CPU will ignore it until it is unlocked which does not waste any time on it. 
