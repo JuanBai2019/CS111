@@ -1,0 +1,30 @@
+NAME:Juan Bai
+EMAIL:Daisybai66@yahoo.com
+ID:105364754
+
+Description of included files:
+
+lab1b-client.c:
+	The client program will open a connection to a server (port specified with the mandatory --port= command line parameter) rather than sending it directly to a shell. The client should then send input from the keyboard to the socket (while echoing to the display), and input from the socket to the display.
+
+lab1b-server.c:
+	The server program will connect with the client, receive the client's commands and send them to the shell, and will "serve" the client the outputs of some commands such as --port = command line parameter and --shell = option.
+
+
+Makefile:
+	Makefile has default clean and dist targets as following
+	default:
+	clean:
+	dist:
+
+Testing methodology:
+	I use port number to connect client and server and ran different test such as --log = log_file,--compress etc to debug. 
+	Unfortunately, I could not get compress to work correctly. 
+
+
+Reaserch references:
+	  For coding part I used TA's powerpoint and washed his vedio, and I used almost all of the pseudocode that he lectured.
+	  And read piazza's questions.
+	  
+
+
